@@ -122,9 +122,18 @@ public class Homework3 {
                     }
                     default -> {
                         System.out.println("Введите пол " + (count + 1) + "-го пользователя (f или m):");
-                        Scanner userInfoScan = new Scanner(System.in);
-                        String gender = userInfoScan.nextLine();
-                        user.setGender(gender);
+                        boolean genderIsCorrect;
+                        do {
+                            genderIsCorrect = true;
+                            Scanner userInfoScan = new Scanner(System.in);
+                            String gender = userInfoScan.nextLine();
+                            if (!gender.equals("f") && !gender.equals("m")) {
+                                System.out.println("Пол указан некорректно, повторите ввод");
+                                genderIsCorrect = false;
+                            } else {
+                                user.setGender(gender);
+                            }
+                        } while (!genderIsCorrect);
                     }
                 }
             }
