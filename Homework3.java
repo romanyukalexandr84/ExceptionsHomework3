@@ -69,19 +69,28 @@ public class Homework3 {
                 switch (variant) {
                     case 1 -> {
                         System.out.println("Введите ФИО " + (count + 1) + "-го пользователя (через пробел):");
-                        Scanner userInfoScan = new Scanner(System.in);
-                        String fio = userInfoScan.nextLine();
-                        String[] userFio = fio.split(" ");
-                        if (userFio.length < 3) {
-                            throw new RuntimeException("Введено недостаточно данных");
-                        } else {
-                            if (userFio.length > 3) {
-                                throw new RuntimeException("Введено избыточное количество данных");
+                        boolean fioIsCorrect;
+                        do {
+                            fioIsCorrect = true;
+                            try {
+                                Scanner userInfoScan = new Scanner(System.in);
+                                String fio = userInfoScan.nextLine();
+                                String[] userFio = fio.split(" ");
+                                if (userFio.length < 3) {
+                                    throw new RuntimeException("Введено недостаточно данных");
+                                } else {
+                                    if (userFio.length > 3) {
+                                        throw new RuntimeException("Введено избыточное количество данных");
+                                    }
+                                }
+                                user.setSurname(userFio[0]);
+                                user.setName(userFio[1]);
+                                user.setPatronymic(userFio[2]);
+                            } catch (RuntimeException e) {
+                                System.out.println(e.getMessage() + ", повторите ввод");
+                                fioIsCorrect = false;
                             }
-                        }
-                        user.setSurname(userFio[0]);
-                        user.setName(userFio[1]);
-                        user.setPatronymic(userFio[2]);
+                        } while (!fioIsCorrect);
                     }
                     case 2 -> {
                         System.out.println("Введите дату рождения " + (count + 1) + "-го пользователя (в формате dd.mm.yyyy):");

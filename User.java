@@ -1,12 +1,12 @@
 public class User {
-    public String surname;
-    public String name;
-    public String patronymic;
-    public String birthDate;
-    public String birthMonth;
-    public String birthYear;
-    public Long phoneNumber;
-    public String gender;
+    private String surname;
+    private String name;
+    private String patronymic;
+    private String birthDate;
+    private String birthMonth;
+    private String birthYear;
+    private Long phoneNumber;
+    private String gender;
 
     public User() {
     }
