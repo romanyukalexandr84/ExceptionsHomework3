@@ -5,7 +5,7 @@ public class Homework3 {
 
     public static List<String[]> readFile(File file) {
         List<String[]> lst = new ArrayList<>();
-        try (FileReader fr = new FileReader(file);BufferedReader bf = new BufferedReader(fr)){
+        try (FileReader fr = new FileReader(file); BufferedReader bf = new BufferedReader(fr)) {
             String line;
             while ((line = bf.readLine()) != null) {
                 lst.add(line.split(" "));
@@ -19,7 +19,7 @@ public class Homework3 {
     }
 
     public static void writeFile(List<String[]> lst, File file, User user) {
-        try (FileWriter fw = new FileWriter(file);BufferedWriter bf = new BufferedWriter(fw)){
+        try (FileWriter fw = new FileWriter(file); BufferedWriter bf = new BufferedWriter(fw)) {
             for (String[] item : lst) {
                 bf.write(Arrays.toString(item)
                         .replace('[', ' ')
@@ -55,7 +55,7 @@ public class Homework3 {
         } while (!isNumeric(num));
 
         int numberOfUsers = Integer.parseInt(num);
-        List <User> usersList = new ArrayList<>();
+        List<User> usersList = new ArrayList<>();
 
         int count = 0;
         while (count < numberOfUsers) {
@@ -85,25 +85,34 @@ public class Homework3 {
                     }
                     case 2 -> {
                         System.out.println("Введите дату рождения " + (count + 1) + "-го пользователя (в формате dd.mm.yyyy):");
-                        Scanner userInfoScan = new Scanner(System.in);
-                        String birthFullDate = userInfoScan.nextLine();
-                        String[] userBirthdate = birthFullDate.split("\\.");
-                        if (userBirthdate.length != 3) {
-                            throw new RuntimeException("Некорректный формат даты");
-                        } else {
-                            if (!isNumeric(userBirthdate[0]) || !isNumeric(userBirthdate[1]) || !isNumeric(userBirthdate[2])) {
-                                throw new RuntimeException("Дата должна быть в числовом формате");
-                            } else {
-                                if (Integer.parseInt(userBirthdate[0]) < 1 || Integer.parseInt(userBirthdate[0]) > 31
-                                        || Integer.parseInt(userBirthdate[1]) < 1 || Integer.parseInt(userBirthdate[1]) > 12
-                                        || Integer.parseInt(userBirthdate[2]) < 1900 || Integer.parseInt(userBirthdate[2]) > 2023) {
-                                    throw new RuntimeException("Выход за пределы возможных значений в дате");
+                        boolean dateIsCorrect;
+                        do {
+                            dateIsCorrect = true;
+                            try {
+                                Scanner userInfoScan = new Scanner(System.in);
+                                String birthFullDate = userInfoScan.nextLine();
+                                String[] userBirthdate = birthFullDate.split("\\.");
+                                if (userBirthdate.length != 3) {
+                                    throw new RuntimeException("Некорректный формат даты");
+                                } else {
+                                    if (!isNumeric(userBirthdate[0]) || !isNumeric(userBirthdate[1]) || !isNumeric(userBirthdate[2])) {
+                                        throw new RuntimeException("Дата должна быть в числовом формате");
+                                    } else {
+                                        if (Integer.parseInt(userBirthdate[0]) < 1 || Integer.parseInt(userBirthdate[0]) > 31
+                                                || Integer.parseInt(userBirthdate[1]) < 1 || Integer.parseInt(userBirthdate[1]) > 12
+                                                || Integer.parseInt(userBirthdate[2]) < 1900 || Integer.parseInt(userBirthdate[2]) > 2023) {
+                                            throw new RuntimeException("Выход за пределы возможных значений в дате");
+                                        }
+                                    }
                                 }
+                                user.setBirthDate(userBirthdate[0]);
+                                user.setBirthMonth(userBirthdate[1]);
+                                user.setBirthYear(userBirthdate[2]);
+                            } catch (RuntimeException e) {
+                                System.out.println(e.getMessage() + ", повторите ввод");
+                                dateIsCorrect = false;
                             }
-                        }
-                        user.setBirthDate(userBirthdate[0]);
-                        user.setBirthMonth(userBirthdate[1]);
-                        user.setBirthYear(userBirthdate[2]);
+                        } while (!dateIsCorrect);
                     }
                     case 3 -> {
                         System.out.println("Введите номер телефона " + (count + 1) + "-го пользователя:");
@@ -146,7 +155,7 @@ public class Homework3 {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            List <String[]> fileContent = readFile(file);
+            List<String[]> fileContent = readFile(file);
             writeFile(fileContent, file, nextUser);
         }
     }
